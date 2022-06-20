@@ -7,3 +7,7 @@ Requirements
 
 - mythic_notify = https://github.com/JayMontana36/mythic_notify
 - ESX
+
+Showcase
+
+https://youtu.be/uk33p91GoQ0
