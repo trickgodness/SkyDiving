@@ -63,11 +63,16 @@ Citizen.CreateThread(function()
         local player = PlayerPedId()
         local playerCoords = GetEntityCoords(player)
         local distance = GetDistanceBetweenCoords(Config.NPCCord, playerCoords, true)
+	if GetEntityHealth(player) ~= 0 then
         if distance <= 2.0 then
             DrawText3D(Config.NPCCord.x, Config.NPCCord.y, Config.NPCCord.z+1.0,Config.Text)
             if IsControlJustPressed(1, 38) then
                 ESX.TriggerServerCallback('moneycheckdiving', function(money)
                     if money then
+			ESX.TriggerServerCallback('isalreadysomeoneflying', function(alreadyflying)
+                            if alreadyflying then
+                                exports['mythic_notify']:DoHudText('error', "Someone already skydiving. Please wait!")
+                            elseif alreadyflying == false then
                         GiveWeaponToPed(PlayerPedId(), GetHashKey("GADGET_PARACHUTE"), true)
                         DoScreenFadeOut(4000)
                         Citizen.Wait(4000)
@@ -83,6 +88,7 @@ Citizen.CreateThread(function()
                             Citizen.Wait(10000)
                             ESX.Game.DeleteVehicle(vehicle)
                             DeletePed(driver)
+			TriggerServerEvent("flyinghasended")
                         end)
                         Citizen.Wait(4000)
                         DoScreenFadeIn(4000)
@@ -90,13 +96,14 @@ Citizen.CreateThread(function()
                         exports['mythic_notify']:DoHudText('error', Config.NoMoney)
                     end
                 end)
-            end
         else
             Citizen.Wait(100)
         end
-
+    end)
+            end
+        end
     end
-
+end
 end)
 
 Citizen.CreateThread(function()
