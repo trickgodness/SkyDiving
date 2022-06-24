@@ -63,6 +63,7 @@ Citizen.CreateThread(function()
         local player = PlayerPedId()
         local playerCoords = GetEntityCoords(player)
         local distance = GetDistanceBetweenCoords(Config.NPCCord, playerCoords, true)
+	if GetEntityHealth(player) ~= 0 then
         if distance <= 2.0 then
             DrawText3D(Config.NPCCord.x, Config.NPCCord.y, Config.NPCCord.z+1.0,Config.Text)
             if IsControlJustPressed(1, 38) then
